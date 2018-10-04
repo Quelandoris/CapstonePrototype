@@ -25,3 +25,8 @@ ScoobyCthulhu-Proto/Temp/UnityLockfile
 ScoobyCthulhu-Proto/Temp/ProcessJobs/
 
 *.log
+
+ScoobyCthulhu-Proto/Library/
+ScoobyCthulhu-Proto/.vs/
+
+*.ide

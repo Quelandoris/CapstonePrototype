@@ -30,3 +30,5 @@ ScoobyCthulhu-Proto/Library/
 ScoobyCthulhu-Proto/.vs/
 
 *.ide
+
+*.cache

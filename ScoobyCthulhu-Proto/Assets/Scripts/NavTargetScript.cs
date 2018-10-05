@@ -17,6 +17,7 @@ public class NavTargetScript : MonoBehaviour {
 	// Update is called once per frame
 	void OnTriggerEnter (Collider coll) {
 		if(coll.gameObject.tag=="Monster"){
+            priority = 0;
             coll.GetComponent<AIBrain>().NavTargetReached(GetComponent<Transform>());
         }
 	}

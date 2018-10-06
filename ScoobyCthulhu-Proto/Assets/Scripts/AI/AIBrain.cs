@@ -7,10 +7,14 @@ using UnityEngine.AI;
 public class AIBrain : MonoBehaviour {
 
     //General Variables
+    public bool debugging = false;
     public Transform NavTarget;
     NavMeshAgent agent;
     public enum modes { Passive, Alert, Chase};
     public modes mode;
+    private GameObject player; //replace this with the object type of player.
+    public float BaseSpeed = 1; //Speed the monster normally moves at
+    public float ChaseSpeed = 1.5f; //Speed on Monster while chasing
 
     //AI Passive Walk
     Transform[] NavTargets;
@@ -19,12 +23,20 @@ public class AIBrain : MonoBehaviour {
     public int AlertTime; //Time AI stays in the Alert State in Seconds
     public int retargetTime; //Seconds it takes for the AI to choose a new location within SearchDistance
     public float SearchDistance; //How far the AI will stray from the source of the sound while searching
-    public Transform SearchTarget;
+    public Vector3 SearchTarget;
+
+    //Sight
+    public float SightWidth; //This is half of it vision width
+    public float SightDistance;
+    public bool seen; //Can the monster currently see the player?
+    public float ChaseDistance; //Distance at which monster will begin chasing
 
     // Use this for initialization
     void OnEnable () {
         mode = modes.Passive;
         agent = GetComponent<NavMeshAgent>();
+        SearchTarget = Vector3.zero;
+        player = GameObject.FindGameObjectWithTag("Player");
         //Fill NavTargets
         int loopnum = 0;
         NavTargetScript[] temp = FindObjectsOfType<NavTargetScript>();
@@ -47,6 +59,8 @@ public class AIBrain : MonoBehaviour {
     //Calls what mode AI is in. Resource heavy, so the individual modes are meant to be fairly light
     void Update()
     {
+        if (debugging) Debug.DrawRay(transform.position, transform.forward * 3, Color.red);
+        Sight();
         switch (mode)
         {
             case modes.Passive:
@@ -56,10 +70,10 @@ public class AIBrain : MonoBehaviour {
                 AIAlert();
                 break;
             case modes.Chase:
-
+                AIChase();
                 break;
             default:
-
+                Debug.Log("Mode Switch in AIBrain Update broke somehow.");
                 break;
         }
     }
@@ -107,14 +121,14 @@ public class AIBrain : MonoBehaviour {
     void AIAlert()
     {
         float dist;
-        dist = Vector3.Distance(GetComponent<Transform>().position, SearchTarget.position);
+        dist = Vector3.Distance(GetComponent<Transform>().position, SearchTarget);
         if (dist < SearchDistance && !IsInvoking("ChangeSearchTarget"))
         {
             Invoke("ChangeSearchTarget", retargetTime); //Ideally this would be done with a coroutine in the full capstone but I want this to get working
         }
         else if(dist>SearchDistance)
         {
-            agent.SetDestination(SearchTarget.position);
+            agent.SetDestination(SearchTarget);
         }
     }
     
@@ -135,10 +149,10 @@ public class AIBrain : MonoBehaviour {
     //Set the location calulated in WanderSphere
     void ChangeSearchTarget()
     {
-        agent.SetDestination(WanderSphere(SearchTarget.position, SearchDistance, -1));
+        agent.SetDestination(WanderSphere(SearchTarget, SearchDistance, -1));
     }
 
-    public void EnterAlert(Transform tr)
+    public void EnterAlert(Vector3 tr)
     {
         //Cancel any current invokes, in case one is running from a previous Alert or Chase
         CancelInvoke();
@@ -146,13 +160,74 @@ public class AIBrain : MonoBehaviour {
         SearchTarget = tr;
         Invoke("EndSearch", AlertTime);
         mode = modes.Alert;
+        agent.speed = BaseSpeed;
     }
     //If nothing is found, return to Passive
     void EndSearch()
     {
         CancelInvoke();
         mode = modes.Passive;
-        SearchTarget = null;
+        agent.speed = BaseSpeed;
+        SearchTarget = Vector3.zero;
         changeTarget();
+    }
+    //Sight; do a raycast, check and compare the angle and distance of the player object
+    void Sight()
+    {
+        //Make sure player exists
+        if (player != null)
+        {
+            //check distance and Angle; if this doesn't return true, don't bother with the raycast
+            if (Vector3.Distance(player.GetComponent<Transform>().position, GetComponent<Transform>().position) < SightDistance &&
+                (Vector3.Angle(player.GetComponent<Transform>().position, GetComponent<Transform>().position) < SightWidth || Vector3.Angle(player.GetComponent<Transform>().position, GetComponent<Transform>().position) >= -SightWidth))
+            {
+                //Do the check
+                RaycastHit hit;
+                if (Physics.Raycast(GetComponent<Transform>().position, player.GetComponent<Transform>().position-transform.position, out hit, SightDistance))
+                {
+                    //if it hit something (it almost certainly should), return its tag. if its player, increase alert 
+                    if (hit.transform.tag == "Player")
+                    {
+                        //If player is close enough, enter chase
+                        if (Vector3.Distance(player.GetComponent<Transform>().position, GetComponent<Transform>().position) < ChaseDistance)
+                        {
+                            seen = true;
+                            EnterChase(hit.transform.position);
+                        }
+                        //Otherwise, go alert and move towards player.
+                        else if (seen == false)
+                        {
+                            EnterAlert(hit.point);
+                        }
+                    }
+                }
+                else
+                {
+                    seen = false;
+                }
+            }
+        }
+    }
+    //Enter chase; go to the player while they are in sight, try to kill, then search area
+    public void EnterChase(Vector3 tr)
+    {
+        //Cancel any current invokes, in case one is running from a previous Alert
+        CancelInvoke();
+        NavTarget = null;
+        SearchTarget = tr;
+        mode = modes.Chase;
+        agent.speed = ChaseSpeed;
+    }
+    //AI for when monster is chasing. 
+    void AIChase()
+    {
+        //When destination reached, go into aleart for the area
+        float dist = agent.remainingDistance;
+        if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance <= 0.5)
+        {
+            EnterAlert(SearchTarget);
+            seen = false;
+        }
+        //Kill the player. I need to ask Connor how we want to handle this
     }
 }

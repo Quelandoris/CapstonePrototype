@@ -21,7 +21,7 @@ public class TestSound : MonoBehaviour {
             {
                 if (c.tag == "Monster")
                 {
-                    c.GetComponent<AIBrain>().EnterAlert(GetComponent<Transform>());
+                    c.GetComponent<AIBrain>().EnterAlert(GetComponent<Transform>().position);
                 }
             }
         }

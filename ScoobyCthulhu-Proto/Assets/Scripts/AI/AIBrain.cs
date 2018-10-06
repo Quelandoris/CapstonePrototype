@@ -128,7 +128,7 @@ public class AIBrain : MonoBehaviour {
         }
         else if(dist>SearchDistance)
         {
-            agent.SetDestination(SearchTarget);
+            agent.SetDestination(transform.localPosition);
         }
     }
     

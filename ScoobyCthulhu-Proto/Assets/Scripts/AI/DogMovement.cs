@@ -99,8 +99,16 @@ public class DogMovement : MonoBehaviour {
             }
             else
             {
-                //Debug.Log("error");
-                agent.SetDestination(point);
+                if (Input.GetAxisRaw("Fire2") == 1)
+                {
+                    GoFetch = false;
+                    mode = modes.Passive;
+                }
+                else
+                {
+                    
+                    agent.SetDestination(point);
+                }
             }
         }
         catch

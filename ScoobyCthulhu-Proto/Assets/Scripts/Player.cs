@@ -2,16 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
-	public float MoveSpeed = 5f;
+    public float MoveSpeed = 5f;
     Vector3 movement;
     Rigidbody myRB;
-    int TargetableMask;                      
+    int TargetableMask;
+    int FloorMask;
+    
+    
     float camRayLength = 100f;
+    public GameObject Flashlight;
+    GameObject dog;
     private void Awake()
     {
+        FloorMask = LayerMask.GetMask("Floor");
         TargetableMask = LayerMask.GetMask("Targetable");
+        dog = GameObject.Find("Dog");
         myRB = GetComponent<Rigidbody>();
     }
     private void FixedUpdate()
@@ -21,15 +29,16 @@ public class Player : MonoBehaviour {
         float v = Input.GetAxisRaw("Vertical");
 
         Move(h, v);
-        Turn();
-        
+        Turn();//for the player and the flashlight
+        Fetch();//for when the player needs to send the dog somewhere
     }
-    void Update () {
+    void Update()
+    {
         float x = Input.GetAxis("Horizontal") * Time.deltaTime * MoveSpeed;
         float z = Input.GetAxis("Vertical") * Time.deltaTime * MoveSpeed;
 
-        
-        
+
+
     }
     private void Move(float h, float v)
     {
@@ -39,23 +48,30 @@ public class Player : MonoBehaviour {
     }
     void Turn()
     {
-        
-        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);   
+
+        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit TargetHit;
 
-        if (Physics.Raycast(camRay, out TargetHit, camRayLength, TargetableMask))
+        if (Physics.Raycast(camRay, out TargetHit, camRayLength))
         {
-           
+            Flashlight.transform.LookAt(TargetHit.point);
+        }
+        if (Physics.Raycast(camRay, out TargetHit, camRayLength, FloorMask))
+        {
             Vector3 playerToMouse = TargetHit.point - transform.position;
-
-            
-           playerToMouse.y = 0f;
-
-           
+            playerToMouse.y = 0f;
             Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
-
-            
             myRB.MoveRotation(newRotation);
         }
+    }
+    void Fetch()
+    {
+        if (Input.GetAxisRaw("Fire1")== 1)//if left mouse clicked
+        {
+            dog.GetComponent<DogMovement>().GoFetch = true;
+            dog.GetComponent<DogMovement>().Fetching = true;
+        }
+       
+        
     }
 }

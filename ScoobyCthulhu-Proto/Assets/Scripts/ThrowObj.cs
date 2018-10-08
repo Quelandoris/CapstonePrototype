@@ -17,11 +17,12 @@ public class ThrowObj : MonoBehaviour {
 	}
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, Target, Time.deltaTime * 50f);
+        transform.position = Vector3.MoveTowards(transform.position, Target, Time.deltaTime * 50f);//helps projectile get to the mouse
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+      //  Debug.Log("working");
         if (collision.gameObject.CompareTag("Floor")){
             Instantiate(OilSpill,transform.position,OilSpill.transform.rotation);
             Destroy(gameObject);

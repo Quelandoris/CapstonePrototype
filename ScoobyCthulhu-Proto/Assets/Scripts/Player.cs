@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     float camRayLength = 100f;
     public GameObject Flashlight;
     GameObject dog;
-    bool hasOil = false;
+    int oilCount = 0;
     Inventory inv;
     public GameObject PlayerArm;
     private void Awake()
@@ -73,18 +73,20 @@ public class Player : MonoBehaviour
     {
         if (Input.GetButtonDown("Fire1"))//if left mouse clicked
         {
-            if (inv.position == 1)
+            if (inv.position == 1)//if dog
             {
                 dog.GetComponent<DogMovement>().GoFetch = true;
                 dog.GetComponent<DogMovement>().Fetching = true;
             }
-            if (inv.position == 0)
+            if (inv.position == 0)//if oil
             {
-                if (hasOil)
+                if (oilCount >=0)
                 {
-                    Debug.Log("working");
+                   // Debug.Log("working");
                     PlayerArm.GetComponent<PlayerArm>().Shoot();
+                    oilCount--;
                 }
+                
             }
         }
         
@@ -93,7 +95,7 @@ public class Player : MonoBehaviour
     {
         if(other.gameObject.name == "OilBottle")
         {
-            hasOil = true;
+            oilCount = 5;
             inv.inv1 = true;
             //send to inv
             Destroy(other.gameObject);

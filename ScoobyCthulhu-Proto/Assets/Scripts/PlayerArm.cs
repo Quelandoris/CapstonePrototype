@@ -14,6 +14,6 @@ public class PlayerArm : MonoBehaviour {
     {
         
        GameObject oilShot = Instantiate(oilProjPrefab,transform.position,transform.rotation);
-        oilShot.GetComponent<ThrowObj>().Target = Target;
+        oilShot.GetComponent<ThrowObj>().Target = Target;//sends info from the player arm to the obj
     }
 }

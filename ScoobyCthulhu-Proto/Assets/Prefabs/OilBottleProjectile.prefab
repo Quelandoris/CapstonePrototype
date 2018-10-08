@@ -39,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1308236115306694}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: -1.5241, z: 1.19}
+  m_LocalPosition: {x: 6.4580555, y: -1.6864319, z: 1.7851408}
   m_LocalScale: {x: 0.35756254, y: 0.35756254, z: 0.35756254}
   m_Children: []
   m_Father: {fileID: 0}
@@ -109,11 +109,11 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1308236115306694}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.3344747, y: 1.9821761, z: 1.6407679}
+  m_Center: {x: 0.0021516432, y: 0.7416025, z: 0.05616218}
 --- !u!114 &114310270199761636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1998,5 +1998,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3079dda33591014f9d65e6de64cfca3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrust: 50
+  thrust: 500
   OilSpill: {fileID: 1189901261169448, guid: 745ade8936397444888ae892f360e7f3, type: 2}

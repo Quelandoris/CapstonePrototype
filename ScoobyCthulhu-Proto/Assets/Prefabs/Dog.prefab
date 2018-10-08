@@ -612,6 +612,14 @@ MonoBehaviour:
   NavTarget: {fileID: 0}
   mode: 0
   MoveSpeed: 2
+  GoFetch: 0
+  Fetching: 0
+  NoisePrefab: {fileID: 1133593707801216, guid: fcac41594f770ed41a660c6873b51ebf,
+    type: 2}
+  NoisePrefab1: {fileID: 1133593707801216, guid: 188b14d775a949a41b08b8c7cfc873d6,
+    type: 2}
+  NoisePrefab2: {fileID: 1133593707801216, guid: 5adee08527e3e8a4fbb1ceb6bebdcba2,
+    type: 2}
 --- !u!136 &136177199849962280
 CapsuleCollider:
   m_ObjectHideFlags: 1

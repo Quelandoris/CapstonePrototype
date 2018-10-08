@@ -15,12 +15,15 @@ public class Player : MonoBehaviour
     float camRayLength = 100f;
     public GameObject Flashlight;
     GameObject dog;
+    bool hasOil = false;
+    Inventory inv;
     private void Awake()
     {
         FloorMask = LayerMask.GetMask("Floor");
         TargetableMask = LayerMask.GetMask("Targetable");
         dog = GameObject.Find("Dog");
         myRB = GetComponent<Rigidbody>();
+        inv = GameObject.Find("InvPanel").GetComponent<Inventory>();
     }
     private void FixedUpdate()
     {
@@ -36,9 +39,6 @@ public class Player : MonoBehaviour
     {
         float x = Input.GetAxis("Horizontal") * Time.deltaTime * MoveSpeed;
         float z = Input.GetAxis("Vertical") * Time.deltaTime * MoveSpeed;
-
-
-
     }
     private void Move(float h, float v)
     {
@@ -73,5 +73,15 @@ public class Player : MonoBehaviour
         }
        
         
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.name == "OilBottle")
+        {
+            hasOil = true;
+            inv.inv1 = true;
+            //send to inv
+            Destroy(other.gameObject);
+        }
     }
 }

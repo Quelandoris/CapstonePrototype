@@ -5,10 +5,14 @@ using UnityEngine;
 public class Inventory : MonoBehaviour {
     
     public Animator anim;
-    
+    public Animator Dog;
+    public Animator Inv1;
+    public Animator Inv2;
     public GameObject DogPosition;
     public GameObject InvPos1;
     public GameObject Invpos2;
+    public bool inv1;
+
     //public PotionGun gun;
     public int position = 1;
     void Start () {
@@ -44,8 +48,12 @@ public class Inventory : MonoBehaviour {
                 anim.SetBool("switchLeft", false);
                 position = 1;
             }
-            
+          
 
+        }
+        if (inv1)
+        {
+            Inv1.SetBool("occupied", true);
         }
         if(position == 1)
         {

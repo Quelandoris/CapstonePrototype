@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ThrowObj : MonoBehaviour {
 
-    public float thrust = 50f;
+    public float thrust = 5000f;
     Transform transform;
     Rigidbody rb;
     public GameObject OilSpill;
@@ -18,7 +18,8 @@ public class ThrowObj : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Floor")){
-            Instantiate(OilSpill,transform);
+            Instantiate(OilSpill,transform.position,OilSpill.transform.rotation);
+            Destroy(gameObject);
         }
     }
 }

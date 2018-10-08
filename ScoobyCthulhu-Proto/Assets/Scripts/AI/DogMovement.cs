@@ -106,7 +106,7 @@ public class DogMovement : MonoBehaviour {
                 }
                 else
                 {
-                    
+
                     agent.SetDestination(point);
                 }
             }

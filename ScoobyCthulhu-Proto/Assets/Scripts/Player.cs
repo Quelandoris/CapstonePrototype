@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     GameObject dog;
     bool hasOil = false;
     Inventory inv;
+    PlayerArm playerArm;
     private void Awake()
     {
         FloorMask = LayerMask.GetMask("Floor");
@@ -24,6 +25,7 @@ public class Player : MonoBehaviour
         dog = GameObject.Find("Dog");
         myRB = GetComponent<Rigidbody>();
         inv = GameObject.Find("InvPanel").GetComponent<Inventory>();
+        playerArm = GameObject.Find("ThrowArm").GetComponent<PlayerArm>();
     }
     private void FixedUpdate()
     {
@@ -66,12 +68,22 @@ public class Player : MonoBehaviour
     }
     void Fetch()
     {
-        if (Input.GetAxisRaw("Fire1")== 1)//if left mouse clicked
+        if (Input.GetButtonDown("Fire1"))//if left mouse clicked
         {
-            dog.GetComponent<DogMovement>().GoFetch = true;
-            dog.GetComponent<DogMovement>().Fetching = true;
+            if (inv.position == 1)
+            {
+                dog.GetComponent<DogMovement>().GoFetch = true;
+                dog.GetComponent<DogMovement>().Fetching = true;
+            }
+            if (inv.position == 0)
+            {
+                if (hasOil)
+                {
+                    Debug.Log("working");
+                    playerArm.Shoot();
+                }
+            }
         }
-       
         
     }
     void OnTriggerEnter(Collider other)

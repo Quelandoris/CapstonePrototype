@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     GameObject dog;
     bool hasOil = false;
     Inventory inv;
-    PlayerArm playerArm;
+    public GameObject PlayerArm;
     private void Awake()
     {
         FloorMask = LayerMask.GetMask("Floor");
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
         dog = GameObject.Find("Dog");
         myRB = GetComponent<Rigidbody>();
         inv = GameObject.Find("InvPanel").GetComponent<Inventory>();
-        playerArm = GameObject.Find("ThrowArm").GetComponent<PlayerArm>();
+        PlayerArm = GameObject.Find("ThrowArm");
     }
     private void FixedUpdate()
     {
@@ -57,6 +57,7 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(camRay, out TargetHit, camRayLength))
         {
             Flashlight.transform.LookAt(TargetHit.point);
+            
         }
         if (Physics.Raycast(camRay, out TargetHit, camRayLength, FloorMask))
         {
@@ -64,6 +65,8 @@ public class Player : MonoBehaviour
             playerToMouse.y = 0f;
             Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
             myRB.MoveRotation(newRotation);
+            PlayerArm.transform.LookAt(TargetHit.point);
+            PlayerArm.GetComponent<PlayerArm>().Target = TargetHit.point;
         }
     }
     void Fetch()
@@ -80,7 +83,7 @@ public class Player : MonoBehaviour
                 if (hasOil)
                 {
                     Debug.Log("working");
-                    playerArm.Shoot();
+                    PlayerArm.GetComponent<PlayerArm>().Shoot();
                 }
             }
         }

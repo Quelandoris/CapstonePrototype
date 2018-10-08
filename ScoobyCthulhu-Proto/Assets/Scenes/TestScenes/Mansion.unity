@@ -4415,6 +4415,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4794026230641884, guid: e3a10588bfd6b544b986b2a10c50fd99, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4794026230641884, guid: e3a10588bfd6b544b986b2a10c50fd99, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 1.15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3a10588bfd6b544b986b2a10c50fd99, type: 2}
   m_IsPrefabAsset: 0

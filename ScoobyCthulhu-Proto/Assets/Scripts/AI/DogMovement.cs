@@ -20,7 +20,8 @@ public class DogMovement : MonoBehaviour {
     public GameObject NoisePrefab2;
 
     void OnEnable () {
-        mode = modes.Passive;
+        // GoFetch = false;
+    mode = modes.Passive;
         FloorMask = LayerMask.GetMask("Floor");
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();

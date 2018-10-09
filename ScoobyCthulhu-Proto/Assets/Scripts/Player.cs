@@ -14,15 +14,15 @@ public class Player : MonoBehaviour
     
     float camRayLength = 100f;
     public GameObject Flashlight;
-    GameObject dog;
+    public GameObject dog;
     int oilCount = 0;
     Inventory inv;
     public GameObject PlayerArm;
-    private void Awake()
+    private void Start()
     {
         FloorMask = LayerMask.GetMask("Floor");
         TargetableMask = LayerMask.GetMask("Targetable");
-        dog = GameObject.Find("Dog");
+        
         myRB = GetComponent<Rigidbody>();
         inv = GameObject.Find("InvPanel").GetComponent<Inventory>();
         PlayerArm = GameObject.Find("ThrowArm");
@@ -45,8 +45,11 @@ public class Player : MonoBehaviour
     private void Move(float h, float v)
     {
         movement.Set(h, 0f, v);
-        movement = movement.normalized * MoveSpeed * Time.deltaTime;
-        myRB.MovePosition(transform.position + movement);
+        // movement = movement.normalized * MoveSpeed * Time.deltaTime;
+        movement = Camera.main.transform.TransformDirection(movement);
+        
+        movement.y = 0.0f;
+        myRB.MovePosition(transform.position + movement/20);
     }
     void Turn()
     {
@@ -75,7 +78,8 @@ public class Player : MonoBehaviour
         {
             if (inv.position == 1)//if dog
             {
-                dog.GetComponent<DogMovement>().GoFetch = true;
+                //Debug.Log("worrking");
+                 dog.GetComponent<DogMovement>().GoFetch = true;
                 dog.GetComponent<DogMovement>().Fetching = true;
             }
             if (inv.position == 0)//if oil

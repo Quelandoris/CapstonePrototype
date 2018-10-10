@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.AI;
 
 public class AIBrain : MonoBehaviour {
@@ -81,6 +82,14 @@ public class AIBrain : MonoBehaviour {
             default:
                 Debug.Log("Mode Switch in AIBrain Update broke somehow.");
                 break;
+        }
+    }
+    //if collides with player, restart level
+    void OnCollisionEnter(Collision coll)
+    {
+        if (coll.gameObject.tag == "Player")
+        {
+            SceneManager.LoadScene(0);
         }
     }
 

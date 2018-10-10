@@ -7698,7 +7698,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1544244278740140, guid: d667ffa0d41c24e4ea90d1eea4231d74, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4489157416152726, guid: d667ffa0d41c24e4ea90d1eea4231d74, type: 2}
       propertyPath: m_LocalRotation.x
@@ -23058,6 +23058,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCam: {fileID: 1236516914}
+  player: {fileID: 0}
 --- !u!65 &720561420
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24708,31 +24709,31 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4489157416152726, guid: d667ffa0d41c24e4ea90d1eea4231d74, type: 2}
       propertyPath: m_LocalRotation.x
-      value: -0.0361005
+      value: 0.113739245
       objectReference: {fileID: 0}
     - target: {fileID: 4489157416152726, guid: d667ffa0d41c24e4ea90d1eea4231d74, type: 2}
       propertyPath: m_LocalRotation.y
-      value: -0.95473963
+      value: 0.61601895
       objectReference: {fileID: 0}
     - target: {fileID: 4489157416152726, guid: d667ffa0d41c24e4ea90d1eea4231d74, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0.13002515
+      value: -0.09050015
       objectReference: {fileID: 0}
     - target: {fileID: 4489157416152726, guid: d667ffa0d41c24e4ea90d1eea4231d74, type: 2}
       propertyPath: m_LocalRotation.w
-      value: -0.26507065
+      value: 0.77420527
       objectReference: {fileID: 0}
     - target: {fileID: 4489157416152726, guid: d667ffa0d41c24e4ea90d1eea4231d74, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -0.557
+      value: -0.7421255
       objectReference: {fileID: 0}
     - target: {fileID: 4489157416152726, guid: d667ffa0d41c24e4ea90d1eea4231d74, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.097
+      value: 1.5633326
       objectReference: {fileID: 0}
     - target: {fileID: 4489157416152726, guid: d667ffa0d41c24e4ea90d1eea4231d74, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 1.418
+      value: 0.1148846
       objectReference: {fileID: 0}
     - target: {fileID: 1524186829553310, guid: d667ffa0d41c24e4ea90d1eea4231d74, type: 2}
       propertyPath: m_Name

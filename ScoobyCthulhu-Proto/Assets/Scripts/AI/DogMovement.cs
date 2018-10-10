@@ -18,6 +18,7 @@ public class DogMovement : MonoBehaviour {
     public GameObject NoisePrefab;//to spawn multiple noisePrefabs for effect might change for a particle system later
     public GameObject NoisePrefab1;
     public GameObject NoisePrefab2;
+    public Camera curCamera;
 
     void OnEnable () {
         // GoFetch = false;
@@ -74,7 +75,7 @@ public class DogMovement : MonoBehaviour {
     }
     void DogFetch()
     {
-        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray camRay = curCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit TargetHit;
         
         if (Physics.Raycast(camRay, out TargetHit, 100f, FloorMask))

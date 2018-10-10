@@ -15,6 +15,7 @@ public class AIBrain : MonoBehaviour {
     private GameObject player; //replace this with the object type of player.
     public float BaseSpeed = 1; //Speed the monster normally moves at
     public float ChaseSpeed = 1.5f; //Speed on Monster while chasing
+    Renderer Rend;
 
     //AI Passive Walk
     Transform[] NavTargets;
@@ -33,10 +34,12 @@ public class AIBrain : MonoBehaviour {
 
     // Use this for initialization
     void OnEnable () {
+       
         mode = modes.Passive;
         agent = GetComponent<NavMeshAgent>();
         SearchTarget = Vector3.zero;
         player = GameObject.FindGameObjectWithTag("Player");
+        Rend = GetComponent<Renderer>();//for color switch
         //Fill NavTargets
         int loopnum = 0;
         NavTargetScript[] temp = FindObjectsOfType<NavTargetScript>();
@@ -65,12 +68,15 @@ public class AIBrain : MonoBehaviour {
         {
             case modes.Passive:
                 AIPassiveWalk();
+                Rend.material.color = Color.white;
                 break;
             case modes.Alert:
                 AIAlert();
+               Rend.material.color = Color.yellow;
                 break;
             case modes.Chase:
                 AIChase();
+               Rend.material.color = Color.red;
                 break;
             default:
                 Debug.Log("Mode Switch in AIBrain Update broke somehow.");
@@ -212,6 +218,7 @@ public class AIBrain : MonoBehaviour {
     public void EnterChase(Vector3 tr)
     {
         //Cancel any current invokes, in case one is running from a previous Alert
+        
         CancelInvoke();
         NavTarget = null;
         SearchTarget = tr;
@@ -221,6 +228,7 @@ public class AIBrain : MonoBehaviour {
     //AI for when monster is chasing. 
     void AIChase()
     {
+        agent.SetDestination(SearchTarget);
         //When destination reached, go into aleart for the area
         float dist = agent.remainingDistance;
         if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance <= 0.5)

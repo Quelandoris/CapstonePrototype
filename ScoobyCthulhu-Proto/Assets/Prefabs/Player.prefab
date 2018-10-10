@@ -102,7 +102,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1737964095855864}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.707, y: -0.023, z: 0.16979}
+  m_LocalPosition: {x: 0.02, y: -0.023, z: 1.15}
   m_LocalScale: {x: 0.39641783, y: 0.39641783, z: 0.39641783}
   m_Children: []
   m_Father: {fileID: 4177979714418136}
@@ -217,7 +217,7 @@ Light:
   serializedVersion: 8
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 5
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -257,6 +257,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 2
   Flashlight: {fileID: 1716656022864242}
+  dog: {fileID: 0}
+  PlayerArm: {fileID: 1737964095855864}
 --- !u!114 &114928547014975734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -268,6 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604a08f3e590f3b488591ed409597d29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Target: {x: 0, y: 0, z: 0}
   oilProjPrefab: {fileID: 1308236115306694, guid: a2ebb90cbea1bfe44b6018d9957e4205,
     type: 2}
 --- !u!135 &135212803026817544

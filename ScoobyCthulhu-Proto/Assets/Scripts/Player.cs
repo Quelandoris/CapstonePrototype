@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     int FloorMask;
     
     
+    public Camera curCamera;
     float camRayLength = 100f;
     public GameObject Flashlight;
     public GameObject dog;
@@ -34,7 +35,7 @@ public class Player : MonoBehaviour
         float v = Input.GetAxisRaw("Vertical");
 
         Move(h, v);
-        Turn();//for the player and the flashlight
+        Turn(h);//for the player and the flashlight
         Fetch();//for when the player needs to send the dog somewhere
     }
     void Update()
@@ -44,17 +45,21 @@ public class Player : MonoBehaviour
     }
     private void Move(float h, float v)
     {
-        movement.Set(h, 0f, v);
+        // movement.Set(h, 0f, v);
         // movement = movement.normalized * MoveSpeed * Time.deltaTime;
-        movement = Camera.main.transform.TransformDirection(movement);
-        
-        movement.y = 0.0f;
+        //movement = Camera.main.transform.TransformDirection(movement);
+        movement = transform.forward * v;
+       // movement.y = 0.0f;
         myRB.MovePosition(transform.position + movement/20);
+        float turn = h* 5;
+        Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
+        myRB.MoveRotation(myRB.rotation * turnRotation);
     }
-    void Turn()
+    void Turn(float h)
     {
 
-        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+         Ray camRay = curCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit TargetHit;
 
         if (Physics.Raycast(camRay, out TargetHit, camRayLength))
@@ -64,13 +69,15 @@ public class Player : MonoBehaviour
         }
         if (Physics.Raycast(camRay, out TargetHit, camRayLength, FloorMask))
         {
-            Vector3 playerToMouse = TargetHit.point - transform.position;
-            playerToMouse.y = 0f;
-            Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
-            myRB.MoveRotation(newRotation);
+          //  Vector3 playerToMouse = TargetHit.point - transform.position;
+         //   playerToMouse.y = 0f;
+         //   Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
+         //   myRB.MoveRotation(newRotation);
             PlayerArm.transform.LookAt(TargetHit.point);
             PlayerArm.GetComponent<PlayerArm>().Target = TargetHit.point;
         }
+        
+
     }
     void Fetch()
     {

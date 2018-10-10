@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerArm : MonoBehaviour {
-
+    public Vector3 Target;
     public GameObject oilProjPrefab;
 	void Start () {
 		
@@ -13,6 +13,7 @@ public class PlayerArm : MonoBehaviour {
 	public void Shoot()
     {
         
-        Instantiate(oilProjPrefab,transform.position,oilProjPrefab.transform.rotation);
+       GameObject oilShot = Instantiate(oilProjPrefab,transform.position,transform.rotation);
+        oilShot.GetComponent<ThrowObj>().Target = Target;//sends info from the player arm to the obj
     }
 }

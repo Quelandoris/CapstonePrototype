@@ -6,12 +6,15 @@ public class Player : MonoBehaviour
 {
 
     public float MoveSpeed = 5f;
+    public float BackwardsSpeed = 0.5f;
+    public float turnSpeed =2f;
     Vector3 movement;
     Rigidbody myRB;
     int TargetableMask;
     int FloorMask;
     
-    
+
+
     public Camera curCamera;
     float camRayLength = 100f;
     public GameObject Flashlight;
@@ -33,7 +36,21 @@ public class Player : MonoBehaviour
         //movement horizontal and vertical
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-
+        //Walking Backwards
+        if ((Input.GetAxisRaw("Vertical"))>0)
+        {
+            v = Input.GetAxisRaw("Vertical");
+        }
+        //Walking Forwards
+        else if ((Input.GetAxisRaw("Vertical")) <0)
+        {
+            v = Input.GetAxisRaw("Vertical") * BackwardsSpeed;
+        }
+        //Turning
+        if ((Input.GetAxisRaw("Horizontal"))!=0)
+        {
+            h = Input.GetAxisRaw("Horizontal");
+        }
         Move(h, v);
         Turn(h);//for the player and the flashlight
         Fetch();//for when the player needs to send the dog somewhere

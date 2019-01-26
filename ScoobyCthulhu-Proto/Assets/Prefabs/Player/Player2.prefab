@@ -55,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1603424964807122}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.78, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4792713751480382}
@@ -68,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1797393026487204}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.94, y: 0.89, z: -3.14}
+  m_LocalPosition: {x: 4.68, y: 0.89, z: 0.85}
   m_LocalScale: {x: 0.70793986, y: 0.70793986, z: 0.70793986}
   m_Children:
   - {fileID: 4282095932091034}
@@ -180,9 +180,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e2fdf0ce3046914c923b361dddb1279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 1
-  Deadzone: 0.05
-  turnSpeed: 1
+  MoveSpeed: 0.75
+  BackwardsSpeed: 0.5
+  ForwardDeadzone: 0.05
+  BackwardDeadzone: 0.4
+  TurnDeadzone: 0.2
+  turnSpeed: 1.25
   curCamera: {fileID: 0}
   Flashlight: {fileID: 0}
 --- !u!136 &136539384688652236

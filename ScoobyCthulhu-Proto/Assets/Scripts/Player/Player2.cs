@@ -5,11 +5,14 @@ using UnityEngine;
 public class Player2 : MonoBehaviour {
 
     public float MoveSpeed = 5f;
+    public float BackwardsSpeed = 0.5f;
     Vector3 movement;
     Rigidbody myRB;
     int TargetableMask;
     int FloorMask;
-    public float Deadzone; //How much does the analog stick need to be pushed to register
+    public float ForwardDeadzone; //How much does the analog stick need to be pushed to register
+    public float BackwardDeadzone; //THIS VALUE NEEDS TO BE NEGATIVE
+    public float TurnDeadzone;
     public float turnSpeed;
 
     public Camera curCamera;
@@ -31,15 +34,20 @@ public class Player2 : MonoBehaviour {
         movement = Vector3.zero;
         float h=0;
         float v=0;
-        if (Mathf.Abs(Input.GetAxis("P2_LAnalog_H")) > Deadzone)
-        {
-            h = Input.GetAxis("P2_LAnalog_H");
-            Debug.Log("Horiz" + h);
-        }
-        if (Mathf.Abs(Input.GetAxis("P2_LAnalog_V")) > Deadzone)
+        //Walking Backwards
+        if ((Input.GetAxis("P2_LAnalog_V")) < ForwardDeadzone)
         {
             v = Input.GetAxis("P2_LAnalog_V");
-            Debug.Log("Vert" + h);
+        }
+        //Walking Forwards
+        else if ((Input.GetAxis("P2_LAnalog_V")) > BackwardDeadzone)
+        {
+            v = Input.GetAxis("P2_LAnalog_V") * BackwardsSpeed;
+        }
+        //Turning
+        if (Mathf.Abs(Input.GetAxis("P2_LAnalog_H")) > TurnDeadzone)
+        {
+            h = Input.GetAxis("P2_LAnalog_H");
         }
         Move(h, v);
     }
@@ -48,6 +56,7 @@ public class Player2 : MonoBehaviour {
         // movement.Set(h, 0f, v);
         // movement = movement.normalized * MoveSpeed * Time.deltaTime;
         //movement = Camera.main.transform.TransformDirection(movement);
+        Debug.Log("H: " + h + ", V: " + v);
         if (v != 0)
         {
             movement = transform.forward * v;
@@ -58,6 +67,7 @@ public class Player2 : MonoBehaviour {
         {
             float turn = h * turnSpeed;
             Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
+            Debug.Log("Rotation: " + turnRotation);
             myRB.MoveRotation(myRB.rotation * turnRotation);
         }
     }

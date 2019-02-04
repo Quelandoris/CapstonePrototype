@@ -22,6 +22,12 @@ public class Player : MonoBehaviour
     int oilCount = 0;
     Inventory inv;
     public GameObject PlayerArm;
+
+    //Audio
+    AudioSource myAudioSource;
+    SoundHandler mySoundHandler;
+    public float timeBetweenSteps = 0.5f; //Time between step sound effect being played
+    float timerSteps; //Time since last step sound was played
     private void Start()
     {
         FloorMask = LayerMask.GetMask("Floor");
@@ -62,9 +68,13 @@ public class Player : MonoBehaviour
     }
     private void Move(float h, float v)
     {
-        // movement.Set(h, 0f, v);
-        // movement = movement.normalized * MoveSpeed * Time.deltaTime;
-        //movement = Camera.main.transform.TransformDirection(movement);
+        //If enough time has passed, play the footsteps sound effect
+        if ((timerSteps > timeBetweenSteps) && (v != 0 || h != 0))
+        {
+            timerSteps = 0f;
+            myAudioSource.PlayOneShot(mySoundHandler.walk);
+        }
+
         movement = transform.forward * v;
        // movement.y = 0.0f;
         myRB.MovePosition(transform.position + movement/20);

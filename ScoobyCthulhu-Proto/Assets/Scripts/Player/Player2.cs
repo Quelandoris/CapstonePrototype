@@ -19,11 +19,18 @@ public class Player2 : MonoBehaviour {
     float camRayLength = 100f;
     public GameObject Flashlight;
     Inventory inv;
+
+    //Audio
+    AudioSource myAudioSource;
+    SoundHandler mySoundHandler;
+    public float timeBetweenSteps = 0.5f; //Time between step sound effect being played
+    float timerSteps; //Time since last step sound was played
     private void Start()
     {
         FloorMask = LayerMask.GetMask("Floor");
         TargetableMask = LayerMask.GetMask("Targetable");
-
+        myAudioSource = GetComponent<AudioSource>();
+        mySoundHandler = GetComponent<SoundHandler>();
         myRB = GetComponent<Rigidbody>();
         inv = GameObject.Find("InvPanel").GetComponent<Inventory>();
     }
@@ -50,12 +57,16 @@ public class Player2 : MonoBehaviour {
             h = Input.GetAxis("P2_LAnalog_H");
         }
         Move(h, v);
+        timerSteps += Time.deltaTime;
     }
     private void Move(float h, float v)
     {
-        // movement.Set(h, 0f, v);
-        // movement = movement.normalized * MoveSpeed * Time.deltaTime;
-        //movement = Camera.main.transform.TransformDirection(movement);
+        //Audio
+        if ((timerSteps > timeBetweenSteps) && (v!=0 || h!=0))
+        {
+            timerSteps = 0f;
+            myAudioSource.PlayOneShot(mySoundHandler.walk);
+        }
         Debug.Log("H: " + h + ", V: " + v);
         if (v != 0)
         {
@@ -71,4 +82,5 @@ public class Player2 : MonoBehaviour {
             myRB.MoveRotation(myRB.rotation * turnRotation);
         }
     }
+    
 }
